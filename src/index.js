@@ -22,13 +22,13 @@ const resolvers = {
       return 'The War of Art'
     },
     price() {
-      return '29.95'
+      return '12.99'
     },
     releaseYear() {
-      return 2020
+      return null
     },
     rating() {
-      return '4.5'
+      return '5'
     },
     inStock() {
       return true
