@@ -22,13 +22,13 @@ const users = [
   },
 ]
 
-// Type definitions (Application Schema)
+// Type definitions (schema)
 const typeDefs = `
   type Query {
-    users: [User]!
+    users: [User!]!
     me: User!
     post: Post!
-  },
+  }
 
   type User {
     id: ID!
@@ -45,31 +45,27 @@ const typeDefs = `
   }
 `
 
-// Resolvers (A set of functions)
+// Resolvers
 const resolvers = {
   Query: {
     users(parent, args, ctx, info) {
       return users
     },
-
     me() {
       return {
         id: '123098',
         name: 'Mike',
-        email: 'mike@gmail.com',
-        age: 28
+        email: 'mike@example.com'
       }
     },
-
     post() {
       return {
-        id: 'abc2323',
-        title: 'Magnificent 7',
-        body: 'Aenean lacinia bibendum nulla sed consectetur.',
-        published: true
+        id: '092',
+        title: 'GraphQL 101',
+        body: '',
+        published: false
       }
-    },
-
+    }
   }
 }
 
@@ -79,5 +75,5 @@ const server = new GraphQLServer({
 })
 
 server.start(() => {
-  console.log('The serve is up')
+  console.log('The server is up!')
 })
