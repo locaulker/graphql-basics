@@ -22,10 +22,32 @@ const users = [
   },
 ]
 
+const posts = [
+  {
+    id: '10',
+    title: 'GraphQL 101',
+    body: 'This is how to use GraphQL...',
+    published: true
+  },
+  {
+    id: '11',
+    title: 'GraphQL 201',
+    body: 'This is an advanced GraphQL post...',
+    published: false
+  },
+  {
+    id: '12',
+    title: 'Programming Music',
+    body: '',
+    published: false
+  },
+]
+
 // Type definitions (schema)
 const typeDefs = `
   type Query {
-    users: [User!]!
+    users(query: String): [User!]!
+    posts(query: String): [Post!]!
     me: User!
     post: Post!
   }
@@ -49,7 +71,24 @@ const typeDefs = `
 const resolvers = {
   Query: {
     users(parent, args, ctx, info) {
-      return users
+      if (!args.query) {
+        return users
+      }
+
+      return users.filter((user) => {
+        return user.name.toLocaleLowerCase().includes(args.query.toLocaleLowerCase())
+      })
+    },
+    posts(parent, args, ctx, info) {
+      if (!args.query) {
+        return posts
+      }
+
+      return posts.filter((post) => {
+        const isTitleMatch = post.title.toLocaleLowerCase().includes(args.query.toLocaleLowerCase())
+        const isBodyMatch = post.body.toLocaleLowerCase().includes(args.query.toLocaleLowerCase())
+        return isTitleMatch || isBodyMatch
+      })
     },
     me() {
       return {
